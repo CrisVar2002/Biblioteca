@@ -1,19 +1,19 @@
 package org.biblioteca.service;
 
-import org.biblioteca.entity.Usuario;
+import org.biblioteca.entity.Prestamo;
 
 import java.util.List;
 
 public interface IPrestamoService {
-    List<Usuario> gettAllUsuarios();
+    List<Prestamo> gettAllPrestamos();
 
-    List<Usuario> getUsuarioByNombre(String nombre);
+    List<Prestamo> getPrestamoByNombre(String nombre);
 
-    Usuario saveUsuario(Usuario usuario);
+    Prestamo savePrestamo(Prestamo prestamo);
 
-    Usuario getUsuarioById(Long id);
+    Prestamo getPrestamoById(Long id);
 
-    Usuario updateUsuario(Usuario usuario);
+    Prestamo updatePrestamo(Prestamo prestamo);
 
-    void deleteUsuarioById(Long id);
+    void deletePrestamoById(Long id);
 }

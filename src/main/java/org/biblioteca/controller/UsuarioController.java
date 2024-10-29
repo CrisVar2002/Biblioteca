@@ -1,4 +1,4 @@
-package org.biblioteca.Controller;
+package org.biblioteca.controller;
 
 public class UsuarioController {
 }
