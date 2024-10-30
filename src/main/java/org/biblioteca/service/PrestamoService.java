@@ -2,13 +2,19 @@ package org.biblioteca.service;
 
 import org.biblioteca.entity.Prestamo;
 import org.biblioteca.repository.IPrestamoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PrestamoService implements IPrestamoService{
+public class PrestamoService implements IPrestamoService {
     private final IPrestamoRepository prestamoRepository;
+
+    @Autowired
+    public PrestamoService(IPrestamoRepository prestamoRepository) {
+        this.prestamoRepository = prestamoRepository;
+    }
 
     @Override
     public List<Prestamo> gettAllPrestamos() {
@@ -16,27 +22,22 @@ public class PrestamoService implements IPrestamoService{
     }
 
     @Override
-    public List<Prestamo> getPrestamoByNombre(String nombre) {
-        return List.of();
-    }
-
-    @Override
     public Prestamo savePrestamo(Prestamo prestamo) {
-        return null;
+        return prestamoRepository.save(prestamo);
     }
 
     @Override
     public Prestamo getPrestamoById(Long id) {
-        return null;
+        return prestamoRepository.findById(id).orElse(null);
     }
 
     @Override
     public Prestamo updatePrestamo(Prestamo prestamo) {
-        return null;
+        return prestamoRepository.save(prestamo);
     }
 
     @Override
     public void deletePrestamoById(Long id) {
-
+        prestamoRepository.deleteById(id);
     }
 }
