@@ -1,11 +1,17 @@
 package org.biblioteca.service;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.biblioteca.entity.Autor;
 import org.biblioteca.repository.IAutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+
+@Getter
+@Setter
 @Service
 public class AutorService implements IAutorService {
     private final IAutorRepository autorRepository;
