@@ -5,13 +5,13 @@ import lombok.*;
 
 import java.util.Date;
 
-@Entity
-@Table(name = "prestamo")
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(exclude = {"id_libro", "id_usuario"})
+@Entity
+@Table(name = "prestamo", schema = "biblioteca", catalog = "postgres")
 public class Prestamo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -3,15 +3,18 @@ package org.biblioteca.controller;
 import org.biblioteca.entity.Libro;
 import org.biblioteca.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Controller
+import java.util.List;
+
+@RestController
+@RequestMapping("/api")
 public class LibroController {
+    private static final Logger logger = LoggerFactory.getLogger(LibroController.class);
     private final LibroService libroService;
 
     @Autowired
@@ -19,59 +22,48 @@ public class LibroController {
         this.libroService = libroService;
     }
 
+    @PostMapping("/libro")
+    public ResponseEntity<Libro> createLibro(@RequestBody Libro libro) {
+        logger.info("Received request to create libro: {}", libro);
+        Libro savedLibro = libroService.saveLibro(libro);
+        return new ResponseEntity<>(savedLibro, HttpStatus.CREATED);
+    }
+
     @GetMapping("/libros")
-    public String getAllLibroes(Model model) {
-        model.addAttribute("libros", libroService.getAllLibros());
-        return "libros";
+    public ResponseEntity<List<Libro>> getAllLibros() {
+        List<Libro> libros = libroService.getAllLibros();
+        return ResponseEntity.ok(libros);
     }
 
-    @GetMapping("/libros/new")
-    public String createLibroForm(Model model){
-
-        // este objeto Libro almacenara los valores
-        Libro libro = new Libro();
-
-        model.addAttribute("libro", libro);
-
-        return "create_libro";
+    @GetMapping("/libro/{id}")
+    public ResponseEntity<Libro> getLibroById(@PathVariable Long id) {
+        Libro libro = libroService.getLibroById(id);
+        if (libro == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(libro);
     }
 
-    @PostMapping("/libros")
-    public String saveLibro(@ModelAttribute("libro") Libro libro) {
-        libroService.saveLibro(libro);
-        return "redirect:/libros";
-    }
-
-    @GetMapping("/libros/edit/{id}")
-    public String editLibroForm(@PathVariable Long id, Model model) {
-        Libro st = libroService.getLibroById(id);
-
-        model.addAttribute("libro", st);
-
-        return "edit_libro";
-    }
-
-    @PostMapping("/libros/{id}")
-    public String updateLibro(@PathVariable Long id,
-                              @ModelAttribute("libro") Libro libro,
-                              Model model) {
-        //sacar el esudiante de la b.d. por el id
+    @PutMapping("/libro/{id}")
+    public ResponseEntity<Libro> updateLibro(@PathVariable Long id, @RequestBody Libro libro) {
         Libro existentLibro = libroService.getLibroById(id);
-        // cargarlo
-        existentLibro.setId_libro(id);
+        if (existentLibro == null) {
+            return ResponseEntity.notFound().build();
+        }
         existentLibro.setTitulo(libro.getTitulo());
         existentLibro.setAnio_publicacion(libro.getAnio_publicacion());
         existentLibro.setGenero(libro.getGenero());
-
-        // guardar el estudiante actualizado
         libroService.updateLibro(existentLibro);
-
-        return "redirect:/libros";
+        return ResponseEntity.ok(existentLibro);
     }
 
-    @GetMapping("/libros/{id}")
-    public String deleteLibro(@PathVariable Long id) {
+    @DeleteMapping("/libro/{id}")
+    public ResponseEntity<Void> deleteLibro(@PathVariable Long id) {
+        Libro libro = libroService.getLibroById(id);
+        if (libro == null) {
+            return ResponseEntity.notFound().build();
+        }
         libroService.deleteLibroById(id);
-        return "redirect:/libros";
+        return ResponseEntity.noContent().build();
     }
 }

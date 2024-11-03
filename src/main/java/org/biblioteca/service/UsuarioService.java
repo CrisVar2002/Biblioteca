@@ -9,15 +9,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-
-
 @Getter
 @Setter
 @Service
 public class UsuarioService implements IUsuarioService {
     private final IUsuarioRepository usuarioRepository;
-
 
     @Autowired
     public UsuarioService(IUsuarioRepository usuarioRepository) {
@@ -25,8 +21,8 @@ public class UsuarioService implements IUsuarioService {
     }
 
     @Override
-    public List<Usuario> gettAllUsuarios() {
-        return usuarioRepository.findAll();
+    public List<Usuario> getAllUsuarios() {
+        return usuarioRepository.findAllOrderedById();
     }
 
     @Override
@@ -37,7 +33,6 @@ public class UsuarioService implements IUsuarioService {
     @Override
     public Usuario saveUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
-
     }
 
     @Override

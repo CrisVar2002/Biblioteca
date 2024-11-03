@@ -7,8 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Long> {
-    @Query ("FROM Usuario u WHERE u.nombre LIKE %:nombre%")
+    @Query("FROM Usuario u WHERE u.nombre LIKE %:nombre%")
     List<Usuario> findByNombreContaining(@Param("nombre") String nombre);
+
+    @Query("SELECT u FROM Usuario u ORDER BY u.id_usuario ASC")
+    List<Usuario> findAllOrderedById();
+
 }

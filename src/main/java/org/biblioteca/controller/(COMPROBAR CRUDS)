@@ -1,0 +1,93 @@
+# Crear un nuevo usuario
+$body = @{
+    nombre = "Frodo"
+    apellido = "Rodriguez"
+    email = "pepe.Rodri@example.com"
+}
+Invoke-RestMethod -Uri http://localhost:8080/api/usuario -Method Post -ContentType "application/json" -Body ($body | ConvertTo-Json)
+
+# Obtener todos los usuarios
+Invoke-RestMethod -Uri http://localhost:8080/api/usuarios -Method Get
+
+# Editar un usuario existente
+$body = @{
+    nombre = "Carlos"
+    apellido = "Lopez"
+    email = "carlos.lopez@example.com"
+}
+Invoke-RestMethod -Uri http://localhost:8080/api/usuario/3 -Method Put -ContentType "application/json" -Body ($body | ConvertTo-Json)
+
+# Eliminar un usuario
+Invoke-RestMethod -Uri http://localhost:8080/api/usuario/1 -Method Delete
+
+
+
+
+
+------------------------------------------------------------------Autor
+
+# Crear un nuevo autor
+$body = @{
+    nombre = "Fabricio"
+    apellido = "Garcia"
+    fecha_nacimiento = "2002-03-06"
+}
+Invoke-RestMethod -Uri http://localhost:8080/api/autor -Method Post -ContentType "application/json" -Body ($body | ConvertTo-Json)
+
+# Obtener todos los autores
+Invoke-RestMethod -Uri http://localhost:8080/api/autores -Method Get
+
+# Actualizar un autor existente
+$body = @{
+    nombre = "Charo"
+    apellido = "Gutierrez"
+    fecha_nacimiento = "2002-03-28"
+}
+Invoke-RestMethod -Uri http://localhost:8080/api/autor/1 -Method Put -ContentType "application/json" -Body ($body | ConvertTo-Json)
+
+# Eliminar un autor
+Invoke-RestMethod -Uri http://localhost:8080/api/autor/1 -Method Delete
+
+
+------------------------------------------------------------------Libro
+
+# Crear un nuevo libro
+$body = @{
+    titulo = "El Chill"
+    anio_publicacion = "1937"
+    genero = "Fantasía"
+} | ConvertTo-Json
+Invoke-RestMethod -Uri http://localhost:8080/api/libro -Method Post -ContentType "application/json" -Body $body
+
+# Obtener todos los libros
+Invoke-RestMethod -Uri http://localhost:8080/api/libros -Method Get
+
+
+
+$url = "http://localhost:8080/api/libro"
+
+$body = @{
+    titulo = "El Chill"
+    anio_publicacion = 1937
+    genero = "Fantasía"
+} | ConvertTo-Json
+
+$response = Invoke-RestMethod -Uri $url -Method Post -Body $body -ContentType "application/json"
+
+$response
+
+
+
+# Buscar libros por nombre
+Invoke-RestMethod -Uri "http://localhost:8080/api/libros/buscar?nombre=Hobbit" -Method Get
+
+# Editar un libro existente
+$body = @{
+    titulo = "El Señor de los Anillos"
+    anio_publicacion = 1954
+    genero = "Fantasía"
+}
+Invoke-RestMethod -Uri http://localhost:8080/api/libro/1 -Method Put -ContentType "application/json" -Body ($body | ConvertTo-Json)
+
+# Eliminar un libro
+Invoke-RestMethod -Uri http://localhost:8080/api/libro/1 -Method Delete

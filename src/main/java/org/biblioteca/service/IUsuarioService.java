@@ -5,7 +5,7 @@ import org.biblioteca.entity.Usuario;
 import java.util.List;
 
 public interface IUsuarioService {
-    List<Usuario> gettAllUsuarios();
+    List<Usuario> getAllUsuarios();
 
     List<Usuario> getUsuarioByNombre(String nombre);
 
