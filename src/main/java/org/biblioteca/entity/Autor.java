@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Esta clase representa la entidad Autor, que está mapeada a la tabla "autor" en el esquema "biblioteca" y el catálogo "postgres".
@@ -41,4 +43,7 @@ public class Autor {
      */
     @Column(name = "fecha_nacimiento", nullable = false)
     private Date fecha_nacimiento;
+
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private Set<Libro> libros;
 }
